@@ -9,10 +9,12 @@ import Hero5 from "@/components/homes/home-1/heros/Hero5";
 import MetaComponent from "@/components/common/MetaComponent";
 import Accordion2 from "@/components/accordion/Accordion2";
 import FormSection from "@/components/Form/FormSection";
+import Grid from "@/components/grid/Grid";
 
 import { useEffect } from "react";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
+import MainPageFaq1 from "@/pages/otherPages/main-pages-faq-1/page";
 
 const metadata = {
   title:
@@ -39,6 +41,9 @@ export default function Home1SliderBackgroundMultiPage() {
             {/* Accordion */}
             <section className="page-section bg-gray-light-1">
               <div className="container position-relative">
+                <div className="text-center mb-60 mb-sm-40">
+                  <h2 className="section-title-small">Accordion</h2>
+                </div>
                 <div className="row section-text">
                   <div>
                     {/* Toggle */}
@@ -50,6 +55,8 @@ export default function Home1SliderBackgroundMultiPage() {
             </section>
             {/* End of Accordion */}
             <FormSection />
+            <Grid />
+            <MainPageFaq1 />
           </main>
           <Footer1 />
         </div>{" "}
