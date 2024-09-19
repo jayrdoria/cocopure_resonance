@@ -11,20 +11,48 @@ import Accordion2 from "@/components/accordion/Accordion2";
 import FormSection from "@/components/Form/FormSection";
 import Grid from "@/components/grid/Grid";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
 import MainPageFaq1 from "@/pages/otherPages/main-pages-faq-1/page";
+import FaqForm from "@/components/Form/FaqForm";
+import axios from "axios"; // Import axios for handling HTTP requests
 
 const metadata = {
   title:
     "Home 1 Slider Background MultiPage || Resonance &mdash; One & Multi Page Reactjs Creative Template",
   description: "Resonance &mdash; One & Multi Page Reactjs Creative Template",
 };
+
 export default function Home1SliderBackgroundMultiPage() {
+  const [faqData, setFaqData] = useState([]);
+
+  // Fetch FAQs from the Express backend (server.js on port 3000)
   useEffect(() => {
-    tippy("[data-tippy-content]");
+    //axios.get("http://cosmicraysstudios.com/faqData.json") // Production
+    axios
+      .get("http://localhost:3000/faqData.json") // Local
+      .then((response) => {
+        setFaqData(response.data); // Set the FAQ data in state
+      })
+      .catch((err) => console.error("Failed to load FAQs", err));
   }, []);
+
+  // Function to handle new FAQ submissions
+  const addFaq = (newFaq) => {
+    const updatedFaqs = [...faqData, { id: faqData.length + 1, ...newFaq }];
+    setFaqData(updatedFaqs); // Update the local state with new FAQ
+
+    // Send the updated FAQ list to the Express backend server to update the JSON file
+    //axios.post("http://cosmicraysstudios.com/updateFaqs", updatedFaqs) // Production
+    axios
+      .post("http://localhost:3000/updateFaqs", updatedFaqs) // POST to Express server at port 3000
+      .then((response) => {
+        console.log("FAQs updated successfully");
+      })
+      .catch((err) => console.error("Failed to update FAQs", err));
+  };
+
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -54,12 +82,14 @@ export default function Home1SliderBackgroundMultiPage() {
               </div>
             </section>
             {/* End of Accordion */}
-            <FormSection />
+            {/* FAQ Form - allows users to add new FAQ */}
+            <FaqForm addFaq={addFaq} />
             <Grid />
-            <MainPageFaq1 />
+            {/* FAQ display */}
+            <MainPageFaq1 faqData={faqData} />
           </main>
           <Footer1 />
-        </div>{" "}
+        </div>
       </div>
     </>
   );

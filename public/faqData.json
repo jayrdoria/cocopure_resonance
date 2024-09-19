@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "question": "What do you mean by an End Product?",
+    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  },
+  {
+    "id": 2,
+    "question": "Where do I find my Purchase or License code?",
+    "answer": "Curabitur vehicula porttitor rutrum. Ut laoreet sodales rutrum."
+  },
+  {
+    "id": 3,
+    "question": "Do I need to buy a licence for each site?",
+    "answer": "Cras mattis est eget lacus dignissim, non consectetur velit pellentesque."
+  }
+]

@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "node public/server.js",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "axios": "^1.7.7",
     "bootstrap": "^5.1.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
     "imagesloaded": "^5.0.0",
     "isotope-layout": "^3.0.6",
     "jarallax": "^2.2.1",
