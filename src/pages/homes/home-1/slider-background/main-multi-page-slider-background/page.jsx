@@ -31,7 +31,7 @@ export default function Home1SliderBackgroundMultiPage() {
   useEffect(() => {
     //axios.get("http://cosmicraysstudios.com/faqData.json") // Production
     axios
-      .get("http://localhost:3000/faqData.json") // Local
+      .get(`${import.meta.env.VITE_SERVER_URL}/faqData.json`) // Dynamic
       .then((response) => {
         setFaqData(response.data); // Set the FAQ data in state
       })
@@ -46,7 +46,7 @@ export default function Home1SliderBackgroundMultiPage() {
     // Send the updated FAQ list to the Express backend server to update the JSON file
     //axios.post("http://cosmicraysstudios.com/updateFaqs", updatedFaqs) // Production
     axios
-      .post("http://localhost:3000/updateFaqs", updatedFaqs) // POST to Express server at port 3000
+      .post(`${import.meta.env.VITE_SERVER_URL}/updateFaqs`, updatedFaqs) // POST to Express server at port 3000
       .then((response) => {
         console.log("FAQs updated successfully");
       })

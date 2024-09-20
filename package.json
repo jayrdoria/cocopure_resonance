@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "node public/server.js",
+    "start": "pm2 start public/server.js --name 'express-server'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -15,6 +15,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.1.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "imagesloaded": "^5.0.0",
     "isotope-layout": "^3.0.6",

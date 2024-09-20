@@ -3,12 +3,19 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url"; // To define __dirname in ES modules
 import cors from "cors";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
 // Enable CORS for localhost:5173 (React Dev Server)
-app.use(cors({ origin: "http://localhost:5173" }));
+const allowedOrigin = process.env.ALLOWED_ORIGIN || "http://localhost:5173";
+
+// Enable CORS for the allowed origin
+app.use(cors({ origin: allowedOrigin }));
 
 // Manually define __dirname in ES module scope
 const __filename = fileURLToPath(import.meta.url);
