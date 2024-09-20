@@ -29,9 +29,8 @@ export default function Home1SliderBackgroundMultiPage() {
 
   // Fetch FAQs from the Express backend (server.js on port 3000)
   useEffect(() => {
-    //axios.get("http://cosmicraysstudios.com/faqData.json") // Production
     axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/faqData.json`) // Dynamic
+      .get(`${import.meta.env.VITE_SERVER_URL}/faqData.json`)
       .then((response) => {
         setFaqData(response.data); // Set the FAQ data in state
       })
@@ -44,7 +43,7 @@ export default function Home1SliderBackgroundMultiPage() {
     setFaqData(updatedFaqs); // Update the local state with new FAQ
 
     // Send the updated FAQ list to the Express backend server to update the JSON file
-    //axios.post("http://cosmicraysstudios.com/updateFaqs", updatedFaqs) // Production
+
     axios
       .post(`${import.meta.env.VITE_SERVER_URL}/updateFaqs`, updatedFaqs) // POST to Express server at port 3000
       .then((response) => {

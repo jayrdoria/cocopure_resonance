@@ -11,11 +11,25 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Enable CORS for localhost:5173 (React Dev Server)
-const allowedOrigin = process.env.ALLOWED_ORIGIN || "http://localhost:5173";
+// Update allowed origins to include localhost:5174 for dev and production
+const allowedOrigins = [
+  "http://localhost:5173", // Default Vite Dev Server
+  "http://localhost:5174", // Vite Dev Server (You may need this in case of port variation)
+  "http://cosmicraysstudios.com", // Production URL
+];
 
-// Enable CORS for the allowed origin
-app.use(cors({ origin: allowedOrigin }));
+// CORS setup
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS policy does not allow access from ${origin}`));
+      }
+    },
+  })
+);
 
 // Manually define __dirname in ES module scope
 const __filename = fileURLToPath(import.meta.url);
