@@ -11,23 +11,26 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Update allowed origins to include localhost:5174 for dev and production
-const allowedOrigins = [
-  "http://localhost:5173", // Default Vite Dev Server
-  "http://localhost:5174", // Vite Dev Server (You may need this in case of port variation)
-  "http://cosmicraysstudios.com", // Production URL
-];
+/// Use dynamic origins based on the environment
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://cosmicraysstudios.com"]
+    : ["http://localhost:5173", "http://localhost:5174"]; // Allow dev origins
 
 // CORS setup
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin, like mobile apps or server-side scripts
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error(`CORS policy does not allow access from ${origin}`));
       }
     },
+    credentials: true, // Add this if you are passing credentials (e.g., cookies)
   })
 );
 
@@ -35,7 +38,7 @@ app.use(
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Define the path to the correct public folder (no double public)
+// Define the path to the correct public folder
 const publicPath = path.join(__dirname, "../public");
 
 // Serve static files from the correct public folder
@@ -60,8 +63,6 @@ app.get("/faqData.json", (req, res) => {
 // Endpoint to update the FAQs in the JSON file
 app.post("/updateFaqs", (req, res) => {
   const updatedFaqs = req.body;
-
-  // File path to the JSON file inside the public folder
   const filePath = path.join(publicPath, "faqData.json");
 
   // Write the updated FAQ data to faqData.json
@@ -74,8 +75,13 @@ app.post("/updateFaqs", (req, res) => {
   });
 });
 
+// Serve index.html for any other routes (SPA Fallback)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(publicPath, "index.html"));
+});
+
 // Start the server on port 3000
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -27,25 +27,28 @@ const metadata = {
 export default function Home1SliderBackgroundMultiPage() {
   const [faqData, setFaqData] = useState([]);
 
-  // Fetch FAQs from the Express backend (server.js on port 3000)
+  // Define serverUrl once
+  const serverUrl = import.meta.env.PROD
+    ? import.meta.env.VITE_APP_SERVER_URL // Production URL
+    : import.meta.env.VITE_SERVER_URL; // Development URL
+
+  // Fetch FAQs from the Express backend
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_SERVER_URL}/faqData.json`)
+      .get(`${serverUrl}/faqData.json`)
       .then((response) => {
         setFaqData(response.data); // Set the FAQ data in state
       })
       .catch((err) => console.error("Failed to load FAQs", err));
-  }, []);
+  }, [serverUrl]);
 
   // Function to handle new FAQ submissions
   const addFaq = (newFaq) => {
     const updatedFaqs = [...faqData, { id: faqData.length + 1, ...newFaq }];
     setFaqData(updatedFaqs); // Update the local state with new FAQ
 
-    // Send the updated FAQ list to the Express backend server to update the JSON file
-
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL}/updateFaqs`, updatedFaqs) // POST to Express server at port 3000
+      .post(`${serverUrl}/updateFaqs`, updatedFaqs)
       .then((response) => {
         console.log("FAQs updated successfully");
       })
